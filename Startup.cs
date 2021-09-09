@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using storyshare_backend_dotnet_v3.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace storyshare_backend_dotnet_v3
 {
@@ -29,6 +31,10 @@ namespace storyshare_backend_dotnet_v3
 
             services.AddControllers();
 
+            // Save connection string from appsettings.json into variable
+            var connectionString = Configuration["DBContextSettings:ConnectionString"];
+            // Register db context as service
+            services.AddDbContext<StoryContext>(opt => opt.UseNpgsql(connectionString));
 
             services.AddSwaggerGen(c =>
             {
